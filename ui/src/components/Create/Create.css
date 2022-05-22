@@ -1,0 +1,94 @@
+button.create-button-wrapper {
+  position: fixed;
+  bottom: 15px;
+  right: 18px;
+  height: 45px;
+  width: 45px;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 7px 7px 10px #ccc;
+  background-color: #2b77ff;
+  color: #fff;
+  font-size: 38px;
+  cursor: pointer;
+  transform: scale(1);
+  transition: .3s ease-in-out;
+}
+
+button.create-button-wrapper:hover {
+  transform: scale(1.2);
+}
+
+.create-conatiner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ccc9;
+}
+
+.create-wrapper {
+  min-width: 300px;
+  padding: 30px 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 13px 13px 11px #ccc;
+  position: relative;
+}
+
+.create-close-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.form-header {
+  text-align: center;
+  margin-top: 0;
+  text-shadow: 5px 5px 5px #ccc;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.input-group-label {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.input-group-input {
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 5px 10px;
+  height: 30px;
+}
+
+.input-error-msg {
+  display: block;
+  height: 12px;
+  font-size: 11px;
+  color: red;
+  transform: translateY(-5px);
+}
+button.input-submit-button {
+  border: none;
+  margin: 0 auto;
+  margin-top: 5px;
+  display: block;
+  padding: 10px 25px;
+  border-radius: 4px;
+  background-color: #2b77ff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}

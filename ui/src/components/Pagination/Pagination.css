@@ -1,0 +1,31 @@
+.pagination-conatiner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-box:first-child {
+  border-left: 1px solid #000;
+}
+
+.pagination-box {
+  border: 1px solid #000;
+  border-left: none;
+  width: 32px;
+  height: 35px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+span.current-page {
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+  font-size: 11px;
+  font-weight: bold;
+}
