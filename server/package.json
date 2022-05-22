@@ -1,0 +1,18 @@
+{
+  "name": "student-manager",
+  "version": "1.0.0",
+  "description": "\"Listing and managing student data\"",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "krishnaDevashish",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.4"
+  }
+}
