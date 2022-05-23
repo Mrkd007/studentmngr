@@ -33,7 +33,7 @@ function* fetchActions(action){
         const response = yield call(fetchActionsFromApi, url)
         yield put({type:FETCH_ACTIONS_SUCCESS,'payload':response.data})
     } catch(e){        
-        yield put({type: FETCH_ACTIONS_FAILURE})
+        yield put({type: FETCH_ACTIONS_FAILURE,'payload':[]})
     }
 }
 
@@ -51,7 +51,6 @@ function* addAction(action){
 }
 
 function* deleteAction(action){
-    console.log(action);
     let url = baseUrl + '/delete?id=' + action.payload;
     try{
         const response = yield call(deleteActionFromDatabase, url);

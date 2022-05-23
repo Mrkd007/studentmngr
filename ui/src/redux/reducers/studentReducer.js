@@ -15,7 +15,6 @@ const initialState = {
     count: 0,
     currentSkipVal: 0,
     currentPageVal: 1,
-    lastIndex: 1,
     currentSortVal: 'studentId',
     searchVal: ''
 }
@@ -26,13 +25,14 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 studentList: action.payload.students,
-                count: action.payload.count,
-                lastIndex: action.payload.lastIndex
+                count: action.payload.count
             }
         
         case FETCH_ACTIONS_FAILURE:
             return {
-                ...state
+                ...state,
+                studentList: [],
+                count: 0
             }
 
         case ADD_ACTION:
@@ -41,7 +41,6 @@ export default function(state = initialState, action) {
             }
 
         case DELETE_ACTION:
-             console.log('DELETE action',{...state,actions: state.actions.filter(act => act._id !== action.payload)})
             return {
                 ...state
             }
@@ -56,8 +55,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 currentPageVal: action.value.currentPageVal,
-                currentSkipVal: action.value.currentSkipVal
-                
+                currentSkipVal: action.value.currentSkipVal                
             }
 
         case UPDATE_SORTING:
