@@ -1,13 +1,24 @@
 .table-wrapper {
   width: 100%;
   margin: 20px 0;
-  padding: 2px 50px;
+  padding: 12px 50px;
   max-height: calc(100vh - 235px);
   overflow: auto;
+  transition: .3s ease-in-out;
 }
 
 .table-header {
   font-weight: bold;
+  color: rgb(82, 82, 82);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: rgba( 255, 255, 255, 0.35 );
+  box-shadow: 0 8px 20px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 5px );
+  -webkit-backdrop-filter: blur( 5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 .table-header, .table-row {
@@ -15,21 +26,38 @@
   width: 100%;
 }
 
+.table-row {
+  height: 42px;
+  align-items: center;
+  margin-bottom: 5px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 2px #ccc;
+  transition: .3s ease-in-out;
+}
+
+.table-row:hover {
+  box-shadow: 12px 12px 20px #a5a9b8;
+  transform: scale(1.02);
+}
+
 .table-header-data, .table-row-data {
   min-width: 75px;
   width: calc(25% - 7px);
   position: relative;
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
   padding: 5px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.table-header-data, .table-header-extra {
-  border-top: 1px solid #000;
+.table-header-data.sort-effect {
+  background-color: #fff;
+  box-shadow: 8px 8px 20px #ccc;
 }
 
-.table-header-data:first-child, .table-row-data:first-child {
-  border-left: 1px solid #000;
+.table-row-data.id-row {
+  font-weight: bold;
+  padding-left: 20px;
 }
 
 .id-header-sort-icon, .name-header-sort-icon {
@@ -45,18 +73,30 @@
   transform: rotate(-180deg);
 }
 
+.name-header-text, .id-header-text {
+  width: calc(100% - 15px);
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .table-row-extra img {
   padding: 2px;
   cursor: pointer;
 }
 
 .table-header-extra, .table-row-extra {
-  width: 28px;
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+  min-width: 28px;
   padding: 1px;
   display: flex;
   align-items: center;
+}
+
+.table-header-extra, .table-header-data  {
+  border: none;
+  font-size: 14px;
+  height: 32px;
 }
 
 span.empty-table {
@@ -67,4 +107,96 @@ span.empty-table {
   font-weight: 600;
   padding: 15px;
   margin-top: 15px;
+}
+
+.confirm-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ccc9;
+  z-index: 999;
+}
+
+.confirm-wrapper {
+  min-width: 300px;
+  padding: 30px 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 13px 13px 11px #ccc;
+  position: relative;
+}
+
+.confirm-header-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-header-container .delet-icon {
+  width: 100px;
+  height: 100px;
+}
+
+.confirm-body-text {
+  font-size: 14px;
+  padding: 4px 20px;
+  text-align: center;
+}
+
+.confirm-footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 25px;
+}
+
+.confirm-footer-container button {
+  min-width: 120px;
+  height: 38px;
+  border-radius: 4px;
+  color: #fff;
+  border: none;
+  background-color: #999999;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .3s ease-in-out;
+}
+
+.confirm-footer-container button.confirm-delete-buttton {
+  background-color: #fe3b41;
+}
+
+.confirm-footer-container button:hover {
+  box-shadow: 5px 5px 8px #ccc;
+}
+
+.table-row-extra img:hover {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@media only screen and (max-width: 460px) {
+  .table-wrapper {
+    padding: 2px 10px;
+  }
 }

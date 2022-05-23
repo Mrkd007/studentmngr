@@ -21,7 +21,6 @@ export const add_action = (text, cb) => {
 }
 
 export const delete_action = (id) => {
-    console.log('Delete action with id',id);
     return {
         type: DELETE_ACTION_REQUEST,
         payload: id

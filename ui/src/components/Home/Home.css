@@ -3,6 +3,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 1024px;
+  position: relative;
+  margin: 0 auto;
 }
 
 .container-header {
@@ -10,6 +13,8 @@
   margin-bottom: 25px;
   text-shadow: 6px 6px 6px #9b9b9b;
   cursor: default;
+  width: 100%;
+  padding-left: 50px;
   transition: .3s ease-in-out;
 }
 
@@ -18,3 +23,8 @@
   text-shadow: 12px 12px 10px #858585;
 }
 
+@media only screen and (max-width: 460px) {
+  .container-header {
+    padding-left: 10px;
+  }
+}

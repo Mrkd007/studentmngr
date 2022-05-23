@@ -1,22 +1,28 @@
-button.create-button-wrapper {
-  position: fixed;
-  bottom: 15px;
-  right: 18px;
+.create-button-wrapper {
+  position: absolute;
+  top: 45px;
+  right: 50px;
   height: 45px;
-  width: 45px;
   border: none;
-  border-radius: 50%;
+  border-radius: 8px;
   box-shadow: 7px 7px 10px #ccc;
   background-color: #2b77ff;
   color: #fff;
-  font-size: 38px;
+  font-size: 28px;
   cursor: pointer;
   transform: scale(1);
   transition: .3s ease-in-out;
+  padding: 0 20px;
+}
+
+.create-button-wrapper span {
+  font-size: 16px;
+  transform: translateY(-4px);
+  display: inline-block;
 }
 
 button.create-button-wrapper:hover {
-  transform: scale(1.2);
+  box-shadow: 12px 12px 12px rgb(192, 192, 192);
 }
 
 .create-conatiner {
@@ -32,8 +38,8 @@ button.create-button-wrapper:hover {
 }
 
 .create-wrapper {
-  min-width: 300px;
-  padding: 30px 20px;
+  min-width: 350px;
+  padding: 30px 40px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 13px 13px 11px #ccc;
@@ -49,7 +55,6 @@ button.create-button-wrapper:hover {
 }
 
 .form-header {
-  text-align: center;
   margin-top: 0;
   text-shadow: 5px 5px 5px #ccc;
 }
@@ -57,20 +62,29 @@ button.create-button-wrapper:hover {
 .input-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-size: 14px;
 }
 
 .input-group-label {
   font-weight: 600;
-  margin-bottom: 2px;
+    margin-bottom: 5px;
+    color: #626262;
+    font-size: 13px;
 }
 
 .input-group-input {
-  border: 1px solid #000;
+  border: 1px solid #4d4d4d;
   border-radius: 4px;
   padding: 5px 10px;
   height: 30px;
+  transition: .3s ease-in-out;
+}
+
+.input-group-input:active, .input-group-input:focus {
+  border: 1px solid #4d4d4d;
+  box-shadow: 1px 2px 8px #4d4d4da8;
+  outline: none;
 }
 
 .input-error-msg {
@@ -80,7 +94,8 @@ button.create-button-wrapper:hover {
   color: red;
   transform: translateY(-5px);
 }
-button.input-submit-button {
+
+.input-submit-button {
   border: none;
   margin: 0 auto;
   margin-top: 5px;
@@ -91,4 +106,16 @@ button.input-submit-button {
   color: #fff;
   font-size: 16px;
   cursor: pointer;
+  outline: none;
+  transition: .3s ease-in-out;
+}
+
+.input-submit-button:hover, .input-submit-button:active, .input-submit-button:focus {
+  box-shadow: 10px 10px 9px #ccc;
+}
+
+@media only screen and (max-width: 460px) {
+  .create-button-wrapper {
+    right: 10px;
+  }
 }

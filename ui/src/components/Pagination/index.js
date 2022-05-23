@@ -21,15 +21,11 @@ class Pagination extends Component {
   handlePagination = (val, lastValue) => {
     const { defaultEntries, currentPageProp, currentSortVal, searchVal } = this.props;
     let tempPageVal = currentPageProp
-    if(val === 'first' && tempPageVal > 1) {
-      tempPageVal = 1;
-    } else if(val === 'prev' && tempPageVal > 1) {
+    if(val === 'prev' && tempPageVal > 1) {
       tempPageVal = tempPageVal - 1;
     } else if(val === 'next' && tempPageVal < lastValue) {
       tempPageVal = tempPageVal + 1;
       this.props.update_currentPageVal(tempPageVal + 1);
-    } else if(val === 'last' && tempPageVal < lastValue) {
-      tempPageVal = lastValue;
     } else if(typeof val === 'number' && val !== tempPageVal) {
       tempPageVal = val;
     }
@@ -44,15 +40,16 @@ class Pagination extends Component {
         skip: (tempPageVal - 1) * defaultEntries,
         sort: currentSortVal,
         searchVal: searchVal
-      })
+      });
+      setTimeout(()=> {
+        this.updateData();
+      },100)
     }
   }
 
   updateData = () => {
-    const { defaultEntries, count, update_currentPageVal } = this.props;
+    const { defaultEntries, count, currentPageProp } = this.props;
     const tempcalaculatepageval = parseInt(count / defaultEntries) + ((count % defaultEntries) > 0 ? 1 : 0 );
-    if(tempcalaculatepageval)
-    console.log(count, defaultEntries);
     if(tempcalaculatepageval <= 5) {
       let tempArr = [];
       for(let i = 0; i < tempcalaculatepageval; i++) {
@@ -60,7 +57,29 @@ class Pagination extends Component {
       }
       this.setState({paginationArray: tempArr, calaculatepageval: tempcalaculatepageval})
     } else {
-      this.setState({paginationArray: [1, 2, '...', tempcalaculatepageval-1, tempcalaculatepageval], calaculatepageval: tempcalaculatepageval})
+      let tempArr = []
+      if(currentPageProp === 1) {
+        tempArr = [1, 2, '...', tempcalaculatepageval-1, tempcalaculatepageval]
+      } else if(currentPageProp === 2) {
+        tempArr = [1, 2, 3, '...', tempcalaculatepageval]
+      } else if(currentPageProp === 3 && tempcalaculatepageval === 6) {
+        tempArr = [1, 2, 3, 4, 5, 6]
+      } else if(currentPageProp === 3 && tempcalaculatepageval > 6) {
+        tempArr = [1, 2, 3, 4, '...', tempcalaculatepageval]
+      } else if(currentPageProp === 4) {
+        tempArr = [1, 2, 3, 4, 5, 6, 7]
+      } else if(currentPageProp > 4 ) {
+        tempArr = [1, '...', currentPageProp-1, currentPageProp, currentPageProp+1, '...', tempcalaculatepageval]
+      } else if(currentPageProp === (tempcalaculatepageval - 2) && tempcalaculatepageval > 6) {
+        tempArr = [1, '...', tempcalaculatepageval-3, tempcalaculatepageval-2, tempcalaculatepageval-1, tempcalaculatepageval]
+      } else if(currentPageProp === (tempcalaculatepageval - 2) && tempcalaculatepageval === 6) {
+        tempArr = [1, 2, 3, 4, 5, 6]
+      } else if(currentPageProp === (tempcalaculatepageval - 1)) {
+        tempArr = [1, '...', tempcalaculatepageval-2, tempcalaculatepageval-1, tempcalaculatepageval]
+      } else if(currentPageProp === tempcalaculatepageval) {
+        tempArr = [1, 2, '...', tempcalaculatepageval-1, tempcalaculatepageval]
+      }
+      this.setState({paginationArray: tempArr, calaculatepageval: tempcalaculatepageval})
     }
   }
 
@@ -78,20 +97,17 @@ class Pagination extends Component {
     const { calaculatepageval, paginationArray} = this.state;
     const { currentPageProp } = this.props;
     
-    console.log('check', paginationArray)
-    
     return (
       <div className='pagination-conatiner'>
-        <img src={FIRSTICON} className='first-icon pagination-box' alt='First' title='First' width='24px' height='24px' onClick={() => {this.handlePagination('first')}} />
         <img src={PREVIOUSICON} className='prev-icon pagination-box' alt='Previous' title='previous' width='24px' height='24px' onClick={() => {this.handlePagination('prev')}} />
-        {
-          paginationArray.map((elm, i) => {
-            return(<span className='pagination-box' key={i} title={elm} onClick={() => {this.handlePagination(elm)}}>{elm}</span>);
-          })
-        }
+        <div className='pagination-group'>
+          {
+            paginationArray.map((elm, i) => {
+              return(<span className={'pagination-box' + (currentPageProp === elm ? ' active' : '')} key={i} title={elm} onClick={() => {this.handlePagination(elm)}}>{elm}</span>);
+            })
+          }
+        </div>
         <img src={NEXTICON} className='next-icon pagination-box' alt='Next' title='Next' width='24px' height='24px' onClick={() => {this.handlePagination('next', calaculatepageval)}} />
-        <img src={LASTIOCN} className='last-icon pagination-box' alt='Last' title='Last' width='24px' height='24px' onClick={() => {this.handlePagination('last', calaculatepageval)}} />
-        <span className='current-page'>Current Page: {currentPageProp}</span>
       </div>
     );
   }

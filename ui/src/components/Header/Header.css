@@ -2,7 +2,7 @@
   width: 100%;
   padding: 0 50px;
   display: flex;
-  justify-content: space-between;
+  transition: .3s ease-in-out;
 }
 
 .header-left-entries {
@@ -19,18 +19,26 @@
 }
 
 .dropdown-selected-data {
-  padding: 0 30px 0 5px;
+  padding: 0 30px 0 8px;
   display: inline-block;
   border-radius: 4px;
-  background-color: #dfdfdf;
   margin: 0 5px;
+  cursor: pointer;
+  border: 1px solid #aaa;
+  height: 28px;
+}
+
+.entries-start-text, .dropdown-selected-data, .entries-end-text {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
 }
 
 .dropdown-icon {
   position: absolute;
-  right: 3px;
+  right: 4px;
+  top: 2px;
   transform: rotate(0deg);
-  top: 0;
   padding: 6px;
   cursor: pointer;
   transition: .3s ease-in-out;
@@ -78,25 +86,53 @@ li.dropdown-list-item, .search-dropdown-list-item {
 .search-box {
   width: 100%;
   position: relative;
+  margin-left: 15px;
 }
 
 .search-icon, .clear-icon {
   position: absolute;
   left: 0px;
-  padding: 3px;
+  top: 2px;
+  padding: 5px;
   cursor: pointer;
+
 }
 
 .clear-icon {
   left: auto;
-  right: 0px;
-  padding: 4px;
+  right: 15px;
+  padding: 5px;
+  transition: .3s ease-in-out;
+}
+
+.clear-icon.hidden {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .search-input {
-  width: 100%;
-  height: 25px;
-  border: 1px solid #ccc;
+  width: 130px;
+  max-width: 100%;
+  height: 28px;
+  border: none;
   border-radius: 4px;
-  padding: 0 22px;
+  padding: 0 25px;
+  background-color: transparent;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 24px;
+  transition: .3s ease-in-out;
+}
+
+.search-input:active, .search-input:focus, .search-input:focus-visible, .search-input.hasvalue {
+  border: 1px solid #aaa;
+  width: 220px;
+  max-width: 100%;
+  outline: none;
+}
+
+@media only screen and (max-width: 460px) {
+  .header {
+    padding-left: 10px;
+  }
 }
