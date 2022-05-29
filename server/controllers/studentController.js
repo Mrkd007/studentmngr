@@ -6,7 +6,9 @@ export const getAllUser = (req, res) => {
   let sortValue = req.query && req.query.sortValue ? req.query.sortValue : 'studentId';
   let searchtext = req.query && req.query.searchtext && req.query.searchtext !== 'undefined' ? req.query.searchtext : '';
   let searchVal = new RegExp(searchtext);
-  StudentSchemaModel.find({$or: [{ 'studentId': { $regex: searchVal, $options: 'i' }}, { 'name': { $regex: searchVal, $options: 'i' }}, { 'email': { $regex: searchVal, $options: 'i' }}]})
+  let subjectsArray = req.query && req.query.subjects ? req.query.subjects : [];
+  subjectsArray = !subjectsArray.length ? new RegExp('.*?') : subjectsArray;
+  StudentSchemaModel.find({$or: [{ 'studentId': { $regex: searchVal, $options: 'i' }}, { 'name': { $regex: searchVal, $options: 'i' }}, { 'email': { $regex: searchVal, $options: 'i' }}], subject: { $in: subjectsArray}})
     .sort(sortValue)
     .skip(skip)
     .limit(limit)
@@ -14,7 +16,7 @@ export const getAllUser = (req, res) => {
       if(err) {
         res.send('Failed to get Student list');
       } else {
-        StudentSchemaModel.count({$or: [{ 'studentId': { $regex: searchVal, $options: 'i' }}, { 'name': { $regex: searchVal, $options: 'i' }}, { 'email': { $regex: searchVal, $options: 'i' }}]}, function( err, count){            
+        StudentSchemaModel.count({$or: [{ 'studentId': { $regex: searchVal, $options: 'i' }}, { 'name': { $regex: searchVal, $options: 'i' }}, { 'email': { $regex: searchVal, $options: 'i' }}], subject: { $in: subjectsArray}}, function( err, count){            
           if(err) {
             res.send('Failed to get Student list');
           } else {
