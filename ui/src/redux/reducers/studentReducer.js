@@ -6,7 +6,8 @@ import {
     UPDATE_DEFAULTENTRIES,
     UPDATE_CURRENTPAGEVAL,
     UPDATE_SORTING,
-    UPDATE_SEARCHVAL
+    UPDATE_SEARCHVAL,
+    UPDATE_SUBJFILTER
 } from '../actions/constants'
 
 const initialState = {
@@ -16,7 +17,17 @@ const initialState = {
     currentSkipVal: 0,
     currentPageVal: 1,
     currentSortVal: 'studentId',
-    searchVal: ''
+    searchVal: '',
+    currentSubjFilter: [],
+    subjectArray: [
+        'Maths',
+        'Physics',
+        'Science',
+        'Computer',
+        'Language',
+        'Robotics',
+        'Economics'
+    ]
 }
 
 export default function(state = initialState, action) {
@@ -68,6 +79,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 searchVal: action.value
+            }
+        
+        case UPDATE_SUBJFILTER:
+            return {
+                ...state,
+                currentSubjFilter: action.value
             }
 
         default:

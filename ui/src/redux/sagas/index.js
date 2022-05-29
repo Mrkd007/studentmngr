@@ -26,11 +26,19 @@ function deleteActionFromDatabase(url){
 
 function* fetchActions(action){
     let url = baseUrl + '/all';
-    const {limit, searchVal, skip, sort } = action.payload;
+    const {limit, searchVal, skip, sort, subjects } = action.payload;
     url = `${url}?limit=${limit}&skip=${skip}&sortValue=${sort}&searchtext=${searchVal}`;
+    if(subjects && subjects.length) {
+        subjects.forEach(elm => {
+            url += '&subjects=' + elm;
+        });
+    }
 
     try {
         const response = yield call(fetchActionsFromApi, url)
+        if(action.cb) {
+            action.cb();
+        }
         yield put({type:FETCH_ACTIONS_SUCCESS,'payload':response.data})
     } catch(e){        
         yield put({type: FETCH_ACTIONS_FAILURE,'payload':[]})

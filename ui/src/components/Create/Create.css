@@ -1,27 +1,24 @@
 .create-button-wrapper {
   position: absolute;
+  top: 0;
+}
+
+.create-button {
+  position: absolute;
   top: 45px;
-  right: 50px;
+  right: 10px;
   height: 45px;
   border: none;
-  border-radius: 8px;
   box-shadow: 7px 7px 10px #ccc;
-  background-color: #2b77ff;
   color: #fff;
-  font-size: 28px;
   cursor: pointer;
   transform: scale(1);
   transition: .3s ease-in-out;
   padding: 0 20px;
+  z-index: 999;
 }
 
-.create-button-wrapper span {
-  font-size: 16px;
-  transform: translateY(-4px);
-  display: inline-block;
-}
-
-button.create-button-wrapper:hover {
+button.create-button:hover {
   box-shadow: 12px 12px 12px rgb(192, 192, 192);
 }
 
@@ -35,6 +32,7 @@ button.create-button-wrapper:hover {
   justify-content: center;
   align-items: center;
   background: #ccc9;
+  z-index: 999;
 }
 
 .create-wrapper {
@@ -52,6 +50,12 @@ button.create-button-wrapper:hover {
   right: 8px;
   padding: 4px;
   cursor: pointer;
+  transform: rotate(0);
+  transition: .3s ease-in-out;
+}
+
+.create-close-icon:hover {
+  transform: rotate(-180deg);
 }
 
 .form-header {
@@ -75,7 +79,7 @@ button.create-button-wrapper:hover {
 
 .input-group-input {
   border: 1px solid #4d4d4d;
-  border-radius: 4px;
+  border-radius: 4px !important;
   padding: 5px 10px;
   height: 30px;
   transition: .3s ease-in-out;
@@ -85,6 +89,30 @@ button.create-button-wrapper:hover {
   border: 1px solid #4d4d4d;
   box-shadow: 1px 2px 8px #4d4d4da8;
   outline: none;
+}
+
+.subject-array {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 270px;
+  border: 1px solid #4d4d4d;
+  border-radius: 4px !important;
+  padding: 10px;
+}
+
+.subject-array .custom-control-inline {
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.subject-array .custom-control-inline .custom-control-label {
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.subject-array .custom-control-inline .custom-control-input {
+  cursor: pointer;
 }
 
 .input-error-msg {
@@ -99,7 +127,7 @@ button.create-button-wrapper:hover {
   border: none;
   margin: 0 auto;
   margin-top: 5px;
-  display: block;
+  display: block !important;
   padding: 10px 25px;
   border-radius: 4px;
   background-color: #2b77ff;

@@ -46,12 +46,14 @@
 }
 
 .pagination-box:hover {
-  background-color: #b1c8f1;
+  background-color: #d1e1ff;
+  box-shadow: 5px 5px 10px #7778, inset -4px -3px 16px #ddd;
   color: #000;
 }
 
 .pagination-box.active, .pagination-box:hover.active {
   background-color: #2b77ff;
+  box-shadow: none;
   color: #fff;
 }
 

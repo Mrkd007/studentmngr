@@ -1,0 +1,33 @@
+.nav-conatiner {
+  width: 100%;
+  /* padding: 0 50px; */
+}
+
+.header-nav-title {
+  font-weight: 700;
+  display: inline-block;
+  overflow: hidden;
+  width: 205px;
+  transition: .3s ease-in-out;
+}
+
+input.search-input-box {
+  width: 90px;
+  transition: .3s ease-in-out;
+}
+
+input.search-input-box.active, input.search-input-box:active, input.search-input-box:focus{
+  width: 200px;
+}
+
+@media only screen and (max-width: 560px) {
+  .header-nav-title {
+    width: 98px;    
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .header-nav-title {
+    width: 0px;    
+  }
+}
