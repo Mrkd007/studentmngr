@@ -5,6 +5,8 @@ import CLOSEICON from '../../assets/ic_close.png';
 import CREATEICON from '../../assets/ic_create.png';
 import { connect } from 'react-redux';
 import { add_action, fetch_actions } from '../../redux/actions'
+import Container from 'react-bootstrap/esm/Container';
+import Button from 'react-bootstrap/esm/Button';
 
 class Create extends Component {
   constructor() {
@@ -16,6 +18,7 @@ class Create extends Component {
       subject: '',
       errMsg: ''
     };
+    this.subjectArraySet = new Set([]);
   }
 
   validateEmail = (mail) => {
@@ -27,8 +30,9 @@ class Create extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const {name, email, subject} = this.state;
-    const { defaultEntries, searchVal, currentSkipVal, currentSortVal } = this.props;
+    const { name, email } = this.state;
+    const { defaultEntries, searchVal, currentSkipVal, currentSortVal, currentSubjFilter } = this.props;
+    let selectedData = Array.from(this.subjectArraySet);
     let errMsg = ''
     if( !name) {
       errMsg = 'Please enter the student name';
@@ -36,10 +40,8 @@ class Create extends Component {
       errMsg = 'Please enter valid name';
     } else if(!this.validateEmail(email)) {
       errMsg = 'Please enter valide email';
-    } else if( !subject) {
-      errMsg = 'Please enter the subject name';
-    } else if(subject.length < 2) {
-      errMsg = 'Please enter valid subject name';
+    } else if(selectedData.length < 1) {
+      errMsg = 'Please select at list one subject';
     }
 
     if(errMsg === '') {
@@ -47,13 +49,14 @@ class Create extends Component {
       this.props.add_action({
         "name": name,
         "email": email,
-        "subject": subject
+        "subject": selectedData
       }, ()=> {
         this.props.fetch_actions({
           limit: defaultEntries,
           skip: currentSkipVal,
           sort: currentSortVal,
-          searchVal: searchVal
+          searchVal: searchVal,
+          subjects: currentSubjFilter
         })
       })
       this.setState({errMsg: '', name: '', email: '', subject: '', createModal: false});
@@ -68,6 +71,7 @@ class Create extends Component {
 
   render() {
     const {createModal, name, email, subject, errMsg} = this.state;
+    const { subjectArray } = this.props;
     return (
       <>
       {createModal ?
@@ -94,22 +98,46 @@ class Create extends Component {
               }} />
             </div>
             <div className='input-group'>
-              <label htmlFor='subject' className='input-group-label'>Subject: </label>
-              <input type='text' className='input-group-input' id='subject' name='subject' placeholder="eg. Robotics" defaultValue={subject} onChange={(e) => {
-                this.setState({subject: e.target.value.trim()})
-              }} />
+              <label htmlFor='subject' className='input-group-label'>Subjects: </label>
+              <div className='subject-array' id='subject'>
+                {
+                  subjectArray.length ? 
+                    subjectArray.map((elm, i) => {
+                      return (
+                        <div className="custom-control custom-checkbox custom-control-inline" key={i}>
+                          <input type="checkbox" className="custom-control-input" id={"defaultInline" + (i)} onChange={
+                            (e) => {
+                              if(e.target.checked) {
+                                this.subjectArraySet.add(elm);
+                              } else {
+                                this.subjectArraySet.delete(elm);
+                              }
+                            }
+                          } />
+                          <label className="custom-control-label" htmlFor={"defaultInline" + (i)}>{elm}</label>
+                        </div>
+                      )
+                    }) 
+                    : 
+                    <input type='text' className='input-group-input' name='subject' placeholder="eg. Robotics" defaultValue={subject} onChange={(e) => {
+                      this.setState({subject: e.target.value.trim()})
+                    }} />
+                }
+              </div>
             </div>
             <span className='input-error-msg'>{errMsg}</span>
-            <button type='submit' className='input-submit-button'>Add Student</button>
+            <Button type='submit' className='input-submit-button'>Add Student</Button>
           </form>
         </div>
       </div>
       :
-      <button className='create-button-wrapper' type='new' title='Add new student Data' onClick={(e) => {
-        this.setState({createModal: true})
-      }}>
-        + <span>Add New</span>
-      </button>
+      <Container className='create-button-wrapper'>
+        <Button className='create-button' type='new' title='Add new student Data' onClick={(e) => {
+          this.setState({createModal: true})
+        }}>
+          + <span>Add New</span>
+        </Button>
+      </Container>
   }
       </>
     );
@@ -120,7 +148,9 @@ const mapStateToProps  = state => ({
   defaultEntries: state.students.defaultEntries,
   searchVal: state.students.searchVal,
   currentSortVal: state.students.currentSortVal,
-  currentSkipVal: state.students.currentSkipVal
+  currentSkipVal: state.students.currentSkipVal,
+  currentSubjFilter: state.students.currentSubjFilter,
+  subjectArray: state.students.subjectArray
 });
 
 const mapDispatchToProps =  dispatch => ({

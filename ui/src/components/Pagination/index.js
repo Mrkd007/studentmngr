@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './Pagination.css';
 
-import FIRSTICON from '../../assets/ic_first.png';
 import PREVIOUSICON from '../../assets/ic_prev.png';
 import NEXTICON from '../../assets/ic_next.png';
-import LASTIOCN from '../../assets/ic_end.png';
+import Container from './../../../node_modules/react-bootstrap/esm/Container';
 import { connect } from 'react-redux';
 import { update_currentPageVal, fetch_actions } from '../../redux/actions'
 
@@ -98,7 +97,7 @@ class Pagination extends Component {
     const { currentPageProp } = this.props;
     
     return (
-      <div className='pagination-conatiner'>
+      <Container className='pagination-conatiner'>
         <img src={PREVIOUSICON} className='prev-icon pagination-box' alt='Previous' title='previous' width='24px' height='24px' onClick={() => {this.handlePagination('prev')}} />
         <div className='pagination-group'>
           {
@@ -108,7 +107,7 @@ class Pagination extends Component {
           }
         </div>
         <img src={NEXTICON} className='next-icon pagination-box' alt='Next' title='Next' width='24px' height='24px' onClick={() => {this.handlePagination('next', calaculatepageval)}} />
-      </div>
+      </Container>
     );
   }
 }

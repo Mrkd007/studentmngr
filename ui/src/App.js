@@ -4,6 +4,7 @@ import Home from './components/Home';
 import rootReducer from './redux/reducers/index';
 import createSagaMiddleware from 'redux-saga';
 import uiSaga from './redux/sagas/index';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, {}, applyMiddleware(sagaMiddleware));

@@ -3,8 +3,9 @@ import './Header.css';
 import CLOSEICON from '../../assets/ic_close.png';
 import SEARCHICON from '../../assets/ic_search.png';
 import DROPDOWNARROWICON from '../../assets/ic_down_arrow.png';
+import Container from 'react-bootstrap/esm/Container';
 import { connect } from 'react-redux';
-import { fetch_actions, update_defaultEntries, update_search, update_currentPageVal } from '../../redux/actions'
+import { fetch_actions, update_defaultEntries, update_search, update_currentPageVal } from '../../redux/actions';
 
 class Header extends Component {
   constructor() {
@@ -33,14 +34,15 @@ class Header extends Component {
   }
 
   toggleEntriesMenu = (value) => {
-    const { searchVal, currentSkipVal, currentSortVal } = this.props;
+    const { searchVal, currentSkipVal, currentSortVal, currentSubjFilter } = this.props;
     if(typeof value === 'number') {
       this.props.update_defaultEntries(value);
       this.props.fetch_actions({
         limit: value,
-        skip: currentSkipVal,
+        skip: 0,
         sort: currentSortVal,
-        searchVal: searchVal
+        searchVal: searchVal,
+        subjects: currentSubjFilter
       })
     }
     this.setState({entriesMenu: !this.state.entriesMenu});
@@ -51,7 +53,7 @@ class Header extends Component {
     let newSearchFlag = true;
     let timeoutFlag;
     return (
-      <div className='header'>
+      <Container className='header'>
         <div className='header-left'>
           <div className='header-left-entries'>
             <span className='entries-start-text'>Show </span>
@@ -70,48 +72,7 @@ class Header extends Component {
             <span className='entries-end-text'> entries</span>
           </div>
         </div>
-        <div className='header-right'>
-          <div className='search-box'>
-            <img src={SEARCHICON} className='search-icon' alt='search' width='24px' height='24px' />
-            <img src={CLOSEICON} className={'clear-icon' + (searchVal !== '' ? '' : ' hidden')} alt='clear' width='24px' height='24px' onClick={() => {
-              this.props.update_search('');
-              document.getElementById('searchInput').value = '';
-              this.props.fetch_actions({
-                limit: defaultEntries,
-                skip: currentSkipVal,
-                sort: currentSortVal,
-                searchVal: ''
-              })
-            }} />
-            <input type='text' className={'search-input' + ( searchVal && searchVal !== '' ? ' hasvalue': '')} id='searchInput' defaultValue={searchVal} title='search will show the results in table' placeholder='Search here'
-            onChange={(e) => {
-              let value = e.target.value.trim();
-              clearInterval(timeoutFlag);
-              if(value !== searchVal) {
-                this.props.update_search(value);
-                this.props.update_currentPageVal({
-                  currentPageVal: 1,
-                  currentSkipVal: 0
-                });
-                if(newSearchFlag) {
-                  newSearchFlag = false;
-                  timeoutFlag = setTimeout(() => {
-                    newSearchFlag = true;
-                    this.props.fetch_actions({
-                      limit: defaultEntries,
-                      skip: currentSkipVal,
-                      sort: currentSortVal,
-                      searchVal: value
-                    })
-                  }, 500)
-                }
-                
-              }
-            }}
-            />
-          </div>
-        </div>
-      </div>
+      </Container>
     );
   }
 }
@@ -120,7 +81,8 @@ const mapStateToProps  = state => ({
   studentList: state.students.studentList,
   defaultEntries: state.students.defaultEntries,
   searchVal: state.students.searchVal,
-  currentSortVal: state.students.currentSortVal,
+  currentSortVal: state.students.currentSortVal,  
+  currentSubjFilter: state.students.currentSubjFilter,
   currentSkipVal: state.students.currentSkipVal
 });
 

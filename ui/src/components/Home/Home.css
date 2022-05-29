@@ -14,17 +14,15 @@
   text-shadow: 6px 6px 6px #9b9b9b;
   cursor: default;
   width: 100%;
-  padding-left: 50px;
   transition: .3s ease-in-out;
 }
 
 .container-header:hover {
-  font-size: 32px;
   text-shadow: 12px 12px 10px #858585;
 }
 
-@media only screen and (max-width: 460px) {
+/* @media only screen and (max-width: 460px) {
   .container-header {
     padding-left: 10px;
   }
-}
+} */
