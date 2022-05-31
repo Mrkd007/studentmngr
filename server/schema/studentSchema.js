@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
   
 const StudentSchema = new mongoose.Schema({
     studentId:String,
@@ -7,4 +7,4 @@ const StudentSchema = new mongoose.Schema({
     subject:[String]
 });
   
-export default mongoose.model('student', StudentSchema, 'Students');
+module.exports = mongoose.model('student', StudentSchema, 'Students');

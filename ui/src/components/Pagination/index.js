@@ -5,7 +5,7 @@ import PREVIOUSICON from '../../assets/ic_prev.png';
 import NEXTICON from '../../assets/ic_next.png';
 import Container from './../../../node_modules/react-bootstrap/esm/Container';
 import { connect } from 'react-redux';
-import { update_currentPageVal, fetch_actions } from '../../redux/actions'
+import { update_currentPageVal, fetch_actions, block_ui } from '../../redux/actions'
 
 class Pagination extends Component {
   constructor() {
@@ -18,7 +18,7 @@ class Pagination extends Component {
   }
 
   handlePagination = (val, lastValue) => {
-    const { defaultEntries, currentPageProp, currentSortVal, searchVal } = this.props;
+    const { defaultEntries, currentPageProp, currentSortVal, searchVal, fetch_actions, block_ui } = this.props;
     let tempPageVal = currentPageProp
     if(val === 'prev' && tempPageVal > 1) {
       tempPageVal = tempPageVal - 1;
@@ -34,11 +34,14 @@ class Pagination extends Component {
         'currentPageVal': tempPageVal,
         'currentSkipVal': (tempPageVal - 1) * defaultEntries
       });
-      this.props.fetch_actions({
+      block_ui(true);
+      fetch_actions({
         limit: defaultEntries,
         skip: (tempPageVal - 1) * defaultEntries,
         sort: currentSortVal,
         searchVal: searchVal
+      }, ()=> {
+        block_ui(false);
       });
       setTimeout(()=> {
         this.updateData();
@@ -122,7 +125,8 @@ const mapStateToProps  = state => ({
 
 const mapDispatchToProps  = dispatch => ({
   update_currentPageVal: (data) => dispatch(update_currentPageVal(data)),
-  fetch_actions: (data) => dispatch(fetch_actions(data)),
+  fetch_actions: (data, cb) => dispatch(fetch_actions(data, cb)),
+  block_ui: (data) => dispatch(block_ui(data)),
   // update_defaultEntries: (data) => dispatch(update_defaultEntries(data))
 });
 

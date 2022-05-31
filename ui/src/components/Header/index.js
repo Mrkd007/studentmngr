@@ -5,7 +5,7 @@ import SEARCHICON from '../../assets/ic_search.png';
 import DROPDOWNARROWICON from '../../assets/ic_down_arrow.png';
 import Container from 'react-bootstrap/esm/Container';
 import { connect } from 'react-redux';
-import { fetch_actions, update_defaultEntries, update_search, update_currentPageVal } from '../../redux/actions';
+import { fetch_actions, update_defaultEntries, update_search, update_currentPageVal, block_ui } from '../../redux/actions';
 
 class Header extends Component {
   constructor() {
@@ -34,15 +34,18 @@ class Header extends Component {
   }
 
   toggleEntriesMenu = (value) => {
-    const { searchVal, currentSkipVal, currentSortVal, currentSubjFilter } = this.props;
+    const { searchVal, currentSkipVal, currentSortVal, currentSubjFilter, update_defaultEntries, fetch_actions, block_ui } = this.props;
     if(typeof value === 'number') {
-      this.props.update_defaultEntries(value);
-      this.props.fetch_actions({
+      update_defaultEntries(value);
+      block_ui(true);
+      fetch_actions({
         limit: value,
         skip: 0,
         sort: currentSortVal,
         searchVal: searchVal,
         subjects: currentSubjFilter
+      }, () => {
+        block_ui(false);
       })
     }
     this.setState({entriesMenu: !this.state.entriesMenu});
@@ -87,7 +90,8 @@ const mapStateToProps  = state => ({
 });
 
 const mapDispatchToProps  = dispatch => ({
-  fetch_actions: (data) => dispatch(fetch_actions(data)),
+  fetch_actions: (data, cb) => dispatch(fetch_actions(data, cb)),
+  block_ui: (data) => dispatch(block_ui(data)),
   update_defaultEntries: (data) => dispatch(update_defaultEntries(data)),
   update_search: (data) => dispatch(update_search(data)),
   update_currentPageVal: (data) => dispatch(update_currentPageVal(data))

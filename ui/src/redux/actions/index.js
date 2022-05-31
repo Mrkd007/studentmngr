@@ -3,7 +3,8 @@ import {FETCH_ACTIONS, ADD_ACTION_REQUEST, DELETE_ACTION_REQUEST,
     UPDATE_CURRENTPAGEVAL,
     UPDATE_SORTING,
     UPDATE_SEARCHVAL,
-    UPDATE_SUBJFILTER
+    UPDATE_SUBJFILTER,
+    BLOACK_UI
 } from './constants'
 
 export const fetch_actions = (data, cb) =>{
@@ -60,6 +61,13 @@ export const update_search = (value) => {
 export const update_subjectFilter = (value) => {
     return {
         type: UPDATE_SUBJFILTER,
+        value
+    }
+}
+
+export const block_ui = (value) => {
+    return {
+        type: BLOACK_UI,
         value
     }
 }

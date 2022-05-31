@@ -1,6 +1,6 @@
-import StudentSchemaModel from '../schema/studentSchema.js';
+const StudentSchemaModel = require('../schema/studentSchema.js');
 
-export const getAllUser = (req, res) => {
+const getAllUser = (req, res) => {
   let limit = req.query && req.query.limit ? parseInt(req.query.limit) : 20;
   let skip = req.query && req.query.skip ? parseInt(req.query.skip) : 0;
   let sortValue = req.query && req.query.sortValue ? req.query.sortValue : 'studentId';
@@ -27,7 +27,7 @@ export const getAllUser = (req, res) => {
   });
 }
 
-export const addUser = (req, res) => {
+const addUser = (req, res) => {
   const newStudentSchemaModel = new StudentSchemaModel();
   newStudentSchemaModel.email = req.body.email;
   newStudentSchemaModel.name = req.body.name;
@@ -54,7 +54,7 @@ export const addUser = (req, res) => {
   
 }
 
-export const deleteUser = (req, res) => {
+const deleteUser = (req, res) => {
   try {
     StudentSchemaModel.findByIdAndRemove({ _id: req.query.id },(err, student) => {
       if(err) {
@@ -66,4 +66,10 @@ export const deleteUser = (req, res) => {
   } catch (e) {
     res.send('Error in deleting student data');
   }
+}
+
+module.exports = {
+  getAllUser,
+  addUser,
+  deleteUser
 }

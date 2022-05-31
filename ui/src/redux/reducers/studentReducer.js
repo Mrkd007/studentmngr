@@ -7,7 +7,8 @@ import {
     UPDATE_CURRENTPAGEVAL,
     UPDATE_SORTING,
     UPDATE_SEARCHVAL,
-    UPDATE_SUBJFILTER
+    UPDATE_SUBJFILTER,
+    BLOACK_UI
 } from '../actions/constants'
 
 const initialState = {
@@ -27,7 +28,8 @@ const initialState = {
         'Language',
         'Robotics',
         'Economics'
-    ]
+    ],
+    blockUI: false
 }
 
 export default function(state = initialState, action) {
@@ -85,6 +87,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 currentSubjFilter: action.value
+            }
+
+        case BLOACK_UI:
+            return {
+                ...state,
+                blockUI: action.value
             }
 
         default:

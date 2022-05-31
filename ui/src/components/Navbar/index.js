@@ -5,7 +5,7 @@ import Navbar from './../../../node_modules/react-bootstrap/esm/Navbar';
 import Form from './../../../node_modules/react-bootstrap/esm/Form';
 import FormControl from './../../../node_modules/react-bootstrap/esm/FormControl';
 import Button from './../../../node_modules/react-bootstrap/esm/Button';
-import { fetch_actions, update_defaultEntries, update_search, update_currentPageVal } from '../../redux/actions';
+import { fetch_actions, update_defaultEntries, update_search, update_currentPageVal, block_ui } from '../../redux/actions';
 
 import PROJECTICON from '../../assets/icon1.png';
 import SEARCHICON from '../../assets/ic_search.png';
@@ -22,7 +22,7 @@ class NavBar extends Component {
 
   updateSearchVal = () => {
     const { currentInputVal, newSearchFlag } = this.state;
-    const { update_search, update_currentPageVal, fetch_actions, defaultEntries, currentSkipVal, currentSortVal, searchVal, currentSubjFilter } = this.props
+    const { update_search, update_currentPageVal, fetch_actions, block_ui, defaultEntries, currentSkipVal, currentSortVal, searchVal, currentSubjFilter } = this.props
     if(currentInputVal !== searchVal) {
       if(newSearchFlag) {
         update_search(currentInputVal);
@@ -31,6 +31,7 @@ class NavBar extends Component {
           currentSkipVal: 0
         });
         this.setState({ newSearchFlag: false});
+        block_ui(true);
         fetch_actions({
           limit: defaultEntries,
           skip: 0,
@@ -39,6 +40,7 @@ class NavBar extends Component {
           subjects: currentSubjFilter
         }, () => {
           this.setState({ newSearchFlag: true});
+          block_ui(false);
         })
       }
     }
@@ -106,6 +108,7 @@ const mapStateToProps  = state => ({
 
 const mapDispatchToProps  = dispatch => ({
   fetch_actions: (data, cb) => dispatch(fetch_actions(data, cb)),
+  block_ui: (data) => dispatch(block_ui(data)),
   update_defaultEntries: (data) => dispatch(update_defaultEntries(data)),
   update_search: (data) => dispatch(update_search(data)),
   update_currentPageVal: (data) => dispatch(update_currentPageVal(data))

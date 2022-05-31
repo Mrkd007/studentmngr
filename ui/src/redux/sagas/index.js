@@ -10,7 +10,8 @@ import {
 } from '../actions/constants'
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:5500/v1'
+// const baseUrl = 'http://localhost:5500/v1'
+const baseUrl = 'https://itskd.io/v1'
 
 function fetchActionsFromApi(url){
     return axios.get(url);           

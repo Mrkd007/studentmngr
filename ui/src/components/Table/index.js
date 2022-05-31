@@ -9,7 +9,7 @@ import EMPTYFILTER from '../../assets/ic_emptyFilter.png';
 import FILLEDFILTER from '../../assets/ic_filledFilter.png';
 import Container from 'react-bootstrap/esm/Container';
 import { connect } from 'react-redux';
-import { fetch_actions, update_sorting, delete_action, update_subjectFilter, update_currentPageVal } from '../../redux/actions'
+import { fetch_actions, block_ui, update_sorting, delete_action, update_subjectFilter, update_currentPageVal } from '../../redux/actions'
 import Button from 'react-bootstrap/esm/Button';
 
 class Table extends Component {
@@ -34,7 +34,8 @@ class Table extends Component {
   }
 
   componentDidMount() {
-    const { defaultEntries, searchVal, currentSkipVal, currentSortVal, currentSubjFilter, fetch_actions, update_currentPageVal  } = this.props;
+    const { defaultEntries, searchVal, currentSkipVal, currentSortVal, currentSubjFilter, fetch_actions, update_currentPageVal, block_ui  } = this.props;
+    block_ui(true);
     fetch_actions({
       limit: defaultEntries,
       skip: 0,
@@ -46,6 +47,7 @@ class Table extends Component {
         currentPageVal: 1,
         currentSkipVal: 0
       });
+      block_ui(false);
     })
     document.addEventListener("mousedown", this.handleClickOutside);
   }
@@ -55,7 +57,7 @@ class Table extends Component {
   }
 
   InputPage = () => {
-    const { subjectArray, currentSubjFilter, update_subjectFilter, defaultEntries, searchVal, currentSortVal, update_currentPageVal } = this.props;
+    const { subjectArray, currentSubjFilter, update_subjectFilter, defaultEntries, searchVal, currentSortVal, update_currentPageVal, block_ui, fetch_actions } = this.props;
     return (
       <div className='filter-modal'  ref={this.wrapperRef}>
         {
@@ -87,7 +89,8 @@ class Table extends Component {
         <div className='modal-footer-btns'>
           <Button variant="secondary" onClick={(e)=>{
             update_subjectFilter([]);
-            this.props.fetch_actions({
+            block_ui(true);
+            fetch_actions({
               limit: defaultEntries,
               skip: 0,
               sort: currentSortVal,
@@ -98,6 +101,7 @@ class Table extends Component {
                 currentPageVal: 1,
                 currentSkipVal: 0
               });
+              block_ui(false);
             })
             this.setState({showSubjectFilter: false});
           }}>Clear</Button>
@@ -105,7 +109,8 @@ class Table extends Component {
             let selectedData = Array.from(this.subjectArraySet);
             update_subjectFilter(selectedData);
             if(selectedData !== subjectArray) {
-              this.props.fetch_actions({
+              block_ui(true);
+              fetch_actions({
                 limit: defaultEntries,
                 skip: 0,
                 sort: currentSortVal,
@@ -116,6 +121,7 @@ class Table extends Component {
                   currentPageVal: 1,
                   currentSkipVal: 0
                 });
+                block_ui(false);
               })
             }
             this.setState({showSubjectFilter: false});
@@ -126,39 +132,42 @@ class Table extends Component {
   }
 
   render() {
-    const { defaultEntries, currentSkipVal, searchVal, currentSortVal, currentSubjFilter } = this.props;
+    const { defaultEntries, currentSkipVal, searchVal, currentSortVal, currentSubjFilter, blockUI, update_sorting, fetch_actions, block_ui } = this.props;
     const { showSubjectFilter } = this.state;
     return (
       <div className='table-wrapper'>
         <Container>
           <div className='table-background-cover'></div>
+          <div className={'table-overlay-spinner spinner' + (blockUI ? '' : ' hidden')}></div>
           <div className='table-header'>
             <div className={'table-header-data id-header' + ((currentSortVal === 'studentId') || (currentSortVal === '-studentId') ? ' sort-effect' : '')}>
               <span className='id-header-text' title='Student ID'>Student ID{((currentSortVal === 'studentId') || (currentSortVal === '-studentId') ? '*' : '')}</span>
               <img className={'id-header-sort-icon' + (currentSortVal === '-studentId' ? ' reverse' : '')} src={SORTICON} alt='sort' height='24px' width='24px' title={currentSortVal === '-studentId' ? 'descending' : 'ascending'} onClick={() => {
                 let valueToupdate = currentSortVal !== '-studentId' ? '-studentId' : 'studentId'
-                this.props.update_sorting(valueToupdate);
-                this.props.fetch_actions({
+                update_sorting(valueToupdate);
+                block_ui(true);
+                fetch_actions({
                   limit: defaultEntries,
                   skip: currentSkipVal,
                   sort: valueToupdate,
                   searchVal: searchVal,
                   subjects: currentSubjFilter
-                },()=>{});
+                },()=>{block_ui(false)});
               }} />
             </div>
             <div className={'table-header-data name-header' + ((currentSortVal === 'name') || (currentSortVal === '-name') ? ' sort-effect' : '')}>
               <span className='name-header-text' title='Name'>Name{((currentSortVal === 'name') || (currentSortVal === '-name') ? '*' : '')}</span>
               <img className={'name-header-sort-icon' + (currentSortVal === '-name' ? ' reverse' : '')} src={SORTICON} alt='sort' height='24px' width='24px' title={currentSortVal === '-name' ? 'descending' : 'ascending'} onClick={() => {
                 let valueToupdate = currentSortVal !== '-name' ? '-name' : 'name'
-                this.props.update_sorting(valueToupdate);
-                this.props.fetch_actions({
+                update_sorting(valueToupdate);
+                block_ui(true);
+                fetch_actions({
                   limit: defaultEntries,
                   skip: currentSkipVal,
                   sort: valueToupdate,
                   searchVal: searchVal,
                   subjects: currentSubjFilter
-                },()=>{});
+                },()=>{block_ui(false)});
               }}  />
             </div>
             <div className='table-header-data email-header'>
@@ -196,12 +205,13 @@ class Table extends Component {
                   <button type='delete' className='confirm-delete-buttton' onClick={(e) => {
                     this.props.delete_action(this.state.confirmId);
                     setTimeout(() => {
-                      this.props.fetch_actions({
+                      block_ui(true);
+                      fetch_actions({
                         limit: defaultEntries,
                         skip: currentSkipVal,
                         sort: currentSortVal,
                         searchVal: searchVal
-                      },()=>{});
+                      },()=>{block_ui(false)});
                     },300)
                     this.setState({showConfirm: false, confirmId: ''})
                   }}>Delete</button>
@@ -217,8 +227,8 @@ class Table extends Component {
             this.props.studentList.length ?
             this.props.studentList.map((elm, i) => {
               return(
-                <div className='table-row-wrapper'>
-                <div className='table-row' key = {i}>
+                <div className='table-row-wrapper' key = {i}>
+                <div className='table-row'>
                   <div className='table-row-data id-row'>
                     <span className='id-row-text'>{elm.studentId ? elm.studentId : 'NA'}</span>
                   </div>
@@ -258,11 +268,13 @@ const mapStateToProps  = state => ({
   currentSkipVal: state.students.currentSkipVal,
   searchVal: state.students.searchVal,
   currentSubjFilter: state.students.currentSubjFilter,
-  subjectArray: state.students.subjectArray
+  subjectArray: state.students.subjectArray,
+  blockUI: state.students.blockUI
 });
 
 const mapDispatchToProps  = dispatch => ({
   fetch_actions: (data, cb) => dispatch(fetch_actions(data, cb)),
+  block_ui: (data) => dispatch(block_ui(data)),
   update_sorting: (data) => dispatch(update_sorting(data)),
   delete_action: (data) => dispatch(delete_action(data)),
   update_subjectFilter: (data) => dispatch(update_subjectFilter(data)),

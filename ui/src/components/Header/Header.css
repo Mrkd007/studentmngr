@@ -130,6 +130,17 @@ li.dropdown-list-item, .search-dropdown-list-item {
   outline: none;
 }
 
+@media only screen and (max-height: 570px) {
+  .entries-start-text, .dropdown-selected-data, .entries-end-text {
+    line-height: 18px;
+    font-size: 12px;
+  }
+
+  .dropdown-selected-data {
+    height: 20px;
+  }
+}
+
 /* @media only screen and (max-width: 460px) {
   .header {
     padding-left: 10px;

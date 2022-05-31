@@ -1,8 +1,8 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import router from './routes/student.js';
-import cors from 'cors';
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const router = require('./routes/student.js');
+const cors = require('cors');
   
 const port=5500;
 const app=express();

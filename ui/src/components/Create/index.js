@@ -4,7 +4,7 @@ import './Create.css';
 import CLOSEICON from '../../assets/ic_close.png';
 import CREATEICON from '../../assets/ic_create.png';
 import { connect } from 'react-redux';
-import { add_action, fetch_actions } from '../../redux/actions'
+import { add_action, fetch_actions, block_ui } from '../../redux/actions'
 import Container from 'react-bootstrap/esm/Container';
 import Button from 'react-bootstrap/esm/Button';
 
@@ -31,7 +31,7 @@ class Create extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { name, email } = this.state;
-    const { defaultEntries, searchVal, currentSkipVal, currentSortVal, currentSubjFilter } = this.props;
+    const { defaultEntries, searchVal, currentSkipVal, currentSortVal, currentSubjFilter, fetch_actions, block_ui } = this.props;
     let selectedData = Array.from(this.subjectArraySet);
     let errMsg = ''
     if( !name) {
@@ -51,12 +51,15 @@ class Create extends Component {
         "email": email,
         "subject": selectedData
       }, ()=> {
-        this.props.fetch_actions({
+        block_ui(true);
+        fetch_actions({
           limit: defaultEntries,
           skip: currentSkipVal,
           sort: currentSortVal,
           searchVal: searchVal,
           subjects: currentSubjFilter
+        },()=>{
+          block_ui(false);
         })
       })
       this.setState({errMsg: '', name: '', email: '', subject: '', createModal: false});
@@ -155,7 +158,8 @@ const mapStateToProps  = state => ({
 
 const mapDispatchToProps =  dispatch => ({
   add_action: (data, cb) => dispatch(add_action(data, cb)),
-  fetch_actions: (data) => dispatch(fetch_actions(data))
+  fetch_actions: (data, cb) => dispatch(fetch_actions(data, cb)),
+  block_ui: (data) => dispatch(block_ui(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Create);

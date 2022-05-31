@@ -1,14 +1,14 @@
-import express from "express";
-import StudentSchemaModel from '../schema/studentSchema.js';
+const express = require('express');
+const StudentSchemaModel = require('../schema/studentSchema.js');
 const router = express.Router();
-import {
+const {
     addUser,
     getAllUser,
     deleteUser
-} from '../controllers/studentController.js';
+} = require('../controllers/studentController.js');
 
 router.get('/all', getAllUser);
 router.post('/add', addUser);
 router.delete('/delete', deleteUser);
 
-export default router;
+module.exports = router;
