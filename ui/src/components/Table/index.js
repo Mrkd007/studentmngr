@@ -203,17 +203,16 @@ class Table extends Component {
                     this.setState({showConfirm: false, confirmId: ''})
                   }}>Cancel</button>
                   <button type='delete' className='confirm-delete-buttton' onClick={(e) => {
-                    this.props.delete_action(this.state.confirmId);
-                    setTimeout(() => {
-                      block_ui(true);
-                      fetch_actions({
-                        limit: defaultEntries,
-                        skip: currentSkipVal,
-                        sort: currentSortVal,
-                        searchVal: searchVal
-                      },()=>{block_ui(false)});
-                    },300)
-                    this.setState({showConfirm: false, confirmId: ''})
+                    this.props.delete_action(this.state.confirmId, () => {
+                        block_ui(true);
+                        fetch_actions({
+                          limit: defaultEntries,
+                          skip: currentSkipVal,
+                          sort: currentSortVal,
+                          searchVal: searchVal
+                        },()=>{block_ui(false)});
+                      this.setState({showConfirm: false, confirmId: ''})
+                    });
                   }}>Delete</button>
                 </div>
               </div>
@@ -276,7 +275,7 @@ const mapDispatchToProps  = dispatch => ({
   fetch_actions: (data, cb) => dispatch(fetch_actions(data, cb)),
   block_ui: (data) => dispatch(block_ui(data)),
   update_sorting: (data) => dispatch(update_sorting(data)),
-  delete_action: (data) => dispatch(delete_action(data)),
+  delete_action: (data, cb) => dispatch(delete_action(data, cb)),
   update_subjectFilter: (data) => dispatch(update_subjectFilter(data)),
   update_currentPageVal: (data) => dispatch(update_currentPageVal(data))
 });

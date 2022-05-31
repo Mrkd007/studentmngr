@@ -63,6 +63,9 @@ function* deleteAction(action){
     let url = baseUrl + '/delete?id=' + action.payload;
     try{
         const response = yield call(deleteActionFromDatabase, url);
+        if(action.cb) {
+            action.cb();
+        }
         yield put({type: DELETE_ACTION,payload: response.data})
     } catch(e){
         yield put({type:FETCH_ACTIONS_FAILURE})

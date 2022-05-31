@@ -23,10 +23,11 @@ export const add_action = (text, cb) => {
     }
 }
 
-export const delete_action = (id) => {
+export const delete_action = (id, cb) => {
     return {
         type: DELETE_ACTION_REQUEST,
-        payload: id
+        payload: id,
+        cb
     }
 }
 

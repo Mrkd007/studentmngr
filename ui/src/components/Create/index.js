@@ -4,7 +4,7 @@ import './Create.css';
 import CLOSEICON from '../../assets/ic_close.png';
 import CREATEICON from '../../assets/ic_create.png';
 import { connect } from 'react-redux';
-import { add_action, fetch_actions, block_ui } from '../../redux/actions'
+import { add_action, fetch_actions, block_ui, update_subjectFilter } from '../../redux/actions'
 import Container from 'react-bootstrap/esm/Container';
 import Button from 'react-bootstrap/esm/Button';
 
@@ -74,7 +74,7 @@ class Create extends Component {
 
   render() {
     const {createModal, name, email, subject, errMsg} = this.state;
-    const { subjectArray } = this.props;
+    const { subjectArray, update_subjectFilter } = this.props;
     return (
       <>
       {createModal ?
@@ -136,6 +136,8 @@ class Create extends Component {
       :
       <Container className='create-button-wrapper'>
         <Button className='create-button' type='new' title='Add new student Data' onClick={(e) => {
+          update_subjectFilter([]);
+          this.subjectArraySet.clear();
           this.setState({createModal: true})
         }}>
           + <span>Add New</span>
@@ -158,7 +160,8 @@ const mapStateToProps  = state => ({
 
 const mapDispatchToProps =  dispatch => ({
   add_action: (data, cb) => dispatch(add_action(data, cb)),
-  fetch_actions: (data, cb) => dispatch(fetch_actions(data, cb)),
+  fetch_actions: (data, cb) => dispatch(fetch_actions(data, cb)),  
+  update_subjectFilter: (data) => dispatch(update_subjectFilter(data)),
   block_ui: (data) => dispatch(block_ui(data))
 })
 
